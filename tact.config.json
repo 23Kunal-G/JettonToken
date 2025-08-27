@@ -10,6 +10,46 @@
         "external": false
       },
       "mode": "full"
+    },
+    {
+      "name": "Messages",
+      "path": "contracts/messages.tact",
+      "output": "build\\Messages",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    },
+    {
+      "name": "Stuct",
+      "path": "contracts/stuct.tact",
+      "output": "build\\Stuct",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    },
+    {
+      "name": "Wallet",
+      "path": "contracts/wallet.tact",
+      "output": "build\\Wallet",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    },
+    {
+      "name": "JettonWallet",
+      "path": "contracts/jetton_wallet.tact",
+      "output": "build\\JettonWallet",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
     }
   ]
 }
