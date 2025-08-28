@@ -8,22 +8,22 @@ contract JettonToken with Jetton  {
     content: Cell;
     mintable: Bool;
 
-    max_supply: Int as coins; 
+    maxSupply: Int as coins;
 
-    init(owner: Address, content: Cell, max_supply: Int) {
+    init(owner: Address, content: Cell) {
         self.totalSupply = 0;
         self.owner = owner;
         self.mintable = true;
         self.content = content;
 
-        self.max_supply = max_supply; // Initial Setting for max_supply
+        self.maxSupply = maxSupply; // Initial Setting for maxSupply
     }
 
     receive(msg: Mint) {
         let ctx: Context = context();
         require(ctx.sender == self.owner, "Not Owner");
         require(self.mintable, "Can't Mint Anymore");
-        self.mint(msg.receiver, msg.amount, self.owner); // (to, amount, response_destination)
+        self.mint(msg.receiver, msg.amount, self.owner); // (to, amount, responseDestination)
     }
 
     receive("Mint: 100") { // Public Minting

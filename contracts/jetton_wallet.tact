@@ -39,9 +39,9 @@ contract JettonWallet {
                     queryId: msg.queryId,
                     amount: msg.amount,
                     from: self.owner,
-                    response_destination: msg.response_destination,
-                    forward_ton_amount: msg.forward_ton_amount,
-                    forward_payload: msg.forward_payload
+                    responseDestination: msg.responseDestination,
+                    forwardTonAmount: msg.forwardTonAmount,
+                    forwardPayload: msg.forwardPayload
                 }.toCell(),
                 code: init.code,
                 data: init.data
@@ -63,28 +63,28 @@ contract JettonWallet {
         // Get value for gas
         let msgValue: Int = self.msgValue(ctx.value);  
         let fwdFee: Int = ctx.readForwardFee();
-        msgValue = msgValue - msg.forward_ton_amount - fwdFee;
+        msgValue = msgValue - msg.forwardTonAmount - fwdFee;
         
          // 0x7362d09c - notify the new owner of JettonToken that the transfer is complete
-        if (msg.forward_ton_amount > 0) { 
+        if (msg.forwardTonAmount > 0) { 
             send(SendParameters{
                 to: self.owner,
-                value: msg.forward_ton_amount,
+                value: msg.forwardTonAmount,
                 mode: SendPayGasSeparately + SendIgnoreErrors,
                 bounce: false,
                 body: TokenNotification {
                     queryId: msg.queryId,
                     amount: msg.amount,
                     from: msg.from,
-                    forward_payload: msg.forward_payload
+                    forwardPayload: msg.forwardPayload
                 }.toCell()
             });
         }
 
         // 0xd53276db -- Cashback to the original Sender
-        if (msg.response_destination != newAddress(0,0)) { 
+        if (msg.responseDestination != newAddress(0,0)) { 
             send(SendParameters {
-                to: msg.response_destination, 
+                to: msg.responseDestination, 
                 value: msgValue,  
                 bounce: false,
                 body: TokenExcesses { 
@@ -115,7 +115,7 @@ contract JettonWallet {
                 queryId: msg.queryId,
                 amount: msg.amount,
                 owner: self.owner,
-                response_destination: self.owner
+                responseDestination: self.owner
             }.toCell()
         });
     }

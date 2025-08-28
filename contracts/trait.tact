@@ -1,5 +1,7 @@
 import "@stdlib/ownable";
 import "./messages.tact";
+import "./stuct.tact";
+import "./jetton_wallet.tact"; // Ensure JettonWallet type is imported
 
 trait Jetton with Ownable {
 
@@ -8,7 +10,7 @@ trait Jetton with Ownable {
     owner: Address;
     content: Cell;
 
-    max_supply: Int; // This is not in the TEP-74 interface
+    maxSupply: Int; // This is not in the TEP-74 interface
 
     receive(msg: TokenUpdateContent) {
         self.requireOwner();                // Allow changing content only by owner
@@ -19,9 +21,9 @@ trait Jetton with Ownable {
         self.requireWallet(msg.owner);                     // Check wallet
         self.totalSupply = self.totalSupply - msg.amount; // Update supply
 
-        if (msg.response_destination != null) { // Cashback
+        if (msg.responseDestination != null) { // Cashback
             send(SendParameters{
-                to: msg.response_destination!!, 
+                to: msg.responseDestination!!, 
                 value: 0,
                 bounce: false,
                 mode: SendRemainingValue + SendIgnoreErrors,
@@ -34,9 +36,9 @@ trait Jetton with Ownable {
 
     // @to The Address receive the Jetton token after minting
     // @amount The amount of Jetton token being minted
-    // @response_destination The previous owner address
-    fun mint(to: Address, amount: Int, response_destination: Address) {
-        require(self.totalSupply + amount <= self.max_supply, "The total supply will be overlapping.");
+    // @responseDestination The previous owner address
+    fun mint(to: Address, amount: Int, responseDestination: Address) {
+        require(self.totalSupply + amount <= self.maxSupply, "The total supply will be overlapping.");
         self.totalSupply = self.totalSupply + amount; // Update total supply
 
         let winit: StateInit = self.getJettonWalletInit(to); // Create message
@@ -49,9 +51,9 @@ trait Jetton with Ownable {
                 queryId: 0,
                 amount: amount,
                 from: myAddress(),
-                response_destination: response_destination,
-                forward_ton_amount: 0,
-                forward_payload: emptySlice()
+                responseDestination: responseDestination,
+                forwardTonAmount: 0,
+                forwardPayload: emptySlice()
             }.toCell(),
             code: winit.code,
             data: winit.data
@@ -65,7 +67,7 @@ trait Jetton with Ownable {
     }
 
     virtual fun getJettonWalletInit(address: Address): StateInit {
-        return initOf JettonDefaultWallet(myAddress(), address);
+        return initOf JettonWallet(myAddress(), address);
     }
 
     // ====== Get Methods ====== //
