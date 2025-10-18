@@ -2,7 +2,7 @@ import "./messages.tact";
 import "./stuct.tact";
 
 contract JettonWallet {
-        const minTonsForStorage: Int = ton("0.01");
+    const minTonsForStorage: Int = ton("0.01");
     const gasConsumption: Int = ton("0.01");
 
     balance: Int;

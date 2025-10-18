@@ -5,15 +5,15 @@ import "./jetton_wallet.tact"; // Ensure JettonWallet type is imported
 
 trait Jetton with Ownable {
 
-    totalSupply: Int; // Already set initially 
+    totalSupply: Int;                             // Already set initially 
     mintable: Bool;
     owner: Address;
     content: Cell;
 
-    maxSupply: Int; // This is not in the TEP-74 interface
+    maxSupply: Int;                            // This is not in the TEP-74 interface
 
     receive(msg: TokenUpdateContent) {
-        self.requireOwner();                // Allow changing content only by owner
+        self.requireOwner();                 // Allow changing content only by owner
         self.content = msg.content;         // Update content
     }
 

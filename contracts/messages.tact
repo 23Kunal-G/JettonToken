@@ -54,6 +54,6 @@ message TokenUpdateContent {
 ------------------------------------------------------------------------------------------ */
 
 message Mint {
-    amount: Int;
+    amount: Int as coins;
     receiver: Address;
 }
