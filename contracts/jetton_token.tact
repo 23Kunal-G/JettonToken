@@ -26,11 +26,11 @@ contract JettonToken with Jetton  {
         self.mint(msg.receiver, msg.amount, self.owner); // (to, amount, responseDestination)
     }
 
-    receive("Mint: 100") { // Public Minting
-        let ctx: Context = context();
-        require(self.mintable, "Can't Mint Anymore");
-        self.mint(ctx.sender, 100, self.owner);
-    }
+    // receive("Mint: 100") { // Public Minting
+    //     let ctx: Context = context();
+    //     require(self.mintable, "Can't Mint Anymore");
+    //     self.mint(ctx.sender, 100, self.owner);
+    // }
 
     receive(msg: MintClose) {
         let ctx: Context = context();
