@@ -32,7 +32,7 @@ contract JettonToken with Jetton  {
         self.mint(ctx.sender, 100, self.owner);
     }
 
-    receive("Owner: MintClose") {
+    receive(msg: MintClose) {
         let ctx: Context = context();
         require(ctx.sender == self.owner, "Not Owner");
         self.mintable = false;

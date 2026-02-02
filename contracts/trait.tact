@@ -19,7 +19,7 @@ trait Jetton with Ownable {
 
     receive(msg: TokenBurnNotification) {
         self.requireWallet(msg.owner);                     // Check wallet
-        self.totalSupply = self.totalSupply - msg.amount; // Update supply
+        self.totalSupply -= msg.amount; // Update supply
 
         if (msg.responseDestination != null) { // Cashback
             send(SendParameters{
@@ -39,7 +39,7 @@ trait Jetton with Ownable {
     // @responseDestination The previous owner address
     fun mint(to: Address, amount: Int, responseDestination: Address) {
         require(self.totalSupply + amount <= self.maxSupply, "The total supply will be overlapping.");
-        self.totalSupply = self.totalSupply + amount; // Update total supply
+        self.totalSupply += amount; // Update total supply
 
         let winit: StateInit = self.getJettonWalletInit(to); // Create message
         send(SendParameters{

@@ -57,3 +57,7 @@ message Mint {
     amount: Int as coins;
     receiver: Address;
 }
+
+message(0xb53a4c0b) MintClose {
+
+}

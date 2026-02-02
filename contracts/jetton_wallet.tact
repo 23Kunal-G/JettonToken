@@ -25,7 +25,7 @@ contract JettonWallet {
         require(ctx.value > min(final, ton("0.01")), "Invalid value!!"); 
 
         // Update balance
-        self.balance = self.balance - msg.amount; 
+        self.balance -= msg.amount; 
         require(self.balance >= 0, "Invalid balance");
 
         let init: StateInit = initOf JettonWallet(self.master, msg.destination);  
@@ -57,7 +57,7 @@ contract JettonWallet {
         }
 
         // Update balance
-        self.balance = self.balance + msg.amount;
+        self.balance += msg.amount;
         require(self.balance >= 0, "Invalid balance"); 
         
         // Get value for gas
@@ -99,7 +99,7 @@ contract JettonWallet {
         let ctx: Context = context();
         require(ctx.sender == self.owner, "Invalid sender");  // Check sender
 
-        self.balance = self.balance - msg.amount; // Update balance
+        self.balance -= msg.amount; // Update balance
         require(self.balance >= 0, "Invalid balance");
 
         let fwdFee: Int = ctx.readForwardFee(); // Gas checks
@@ -124,16 +124,16 @@ contract JettonWallet {
         let msgvalue: Int = value;
         let tonBalanceBeforeMsg: Int = myBalance() - msgvalue;
         let storageFee: Int = self.minTonsForStorage - min(tonBalanceBeforeMsg, self.minTonsForStorage);
-        msgvalue = msgvalue - (storageFee + self.gasConsumption);
+        msgvalue -= (storageFee + self.gasConsumption);
         return msgvalue;
     }
 
     bounced(src: bounced<TokenTransferInternal>) {
-        self.balance = self.balance + src.amount;
+        self.balance += src.amount;
     }
 
     bounced(src: bounced<TokenBurnNotification>) {
-        self.balance = self.balance + src.amount;
+        self.balance += src.amount;
     }
 
     get fun get_wallet_data(): JettonWalletData {
