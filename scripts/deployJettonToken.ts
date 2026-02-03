@@ -12,7 +12,7 @@ export async function run(provider: NetworkProvider) {
     };
 
     const totalSupply = 1000_000_000_000n;
-    const owner = Address.parse(process.env.JETTON_TOKEN_OWNER_ADDRESS as string);
+    const owner = Address.parse(process.env.JETTON_TOKEN_OWNER_ADDRESS_V5 as string);
     
 
     // Create content Cell
