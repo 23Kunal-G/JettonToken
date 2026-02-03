@@ -10,7 +10,7 @@ contract JettonToken with Jetton  {
 
     maxSupply: Int as coins;
 
-    init(owner: Address, content: Cell) {
+    init(owner: Address, content: Cell, maxSupply: Int) {
         self.totalSupply = 0;
         self.owner = owner;
         self.mintable = true;
