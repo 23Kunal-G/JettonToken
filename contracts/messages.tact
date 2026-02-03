@@ -45,7 +45,7 @@ message(0xd53276db) TokenExcesses {
     queryId: Int as uint64;
 }
 
-message TokenUpdateContent {
+message(0xaf1ca26a) TokenUpdateContent {
     content: Cell;
 }
 
@@ -53,7 +53,7 @@ message TokenUpdateContent {
                                 Jetton Master (Token) Contract Message
 ------------------------------------------------------------------------------------------ */
 
-message Mint {
+message(0x49079133) Mint {
     amount: Int as coins;
     receiver: Address;
 }
