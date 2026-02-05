@@ -14,7 +14,7 @@ export async function walletConfig() {
     });
 
     // Connect to the network
-    /* sometime getHttpEndpoint that function can working properly for the resone
+    /* sometime getHttpEndpoint that function can working properly for the reson
       I used that link
     */
 
@@ -22,4 +22,5 @@ export async function walletConfig() {
     const endpoint = "https://testnet.toncenter.com/api/v2/openapi.json";
     const client = new TonClient({ endpoint });
     const walletContract = client.open(wallet);
+    return walletContract;
 }
