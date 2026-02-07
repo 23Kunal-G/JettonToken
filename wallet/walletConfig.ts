@@ -22,5 +22,8 @@ export async function walletConfig() {
     const endpoint = "https://testnet.toncenter.com/api/v2/openapi.json";
     const client = new TonClient({ endpoint });
     const walletContract = client.open(wallet);
-    return walletContract;
+    return {
+        wallet: walletContract,
+        keyPair: keyPair
+    };
 }
