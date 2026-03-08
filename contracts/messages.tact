@@ -61,3 +61,7 @@ message(0x49079133) Mint {
 message(0xb53a4c0b) MintClose {
 
 }
+
+message(0x631529f8) IncreaseMaxSupply {
+    newMaxSupply: Int as coins;
+}

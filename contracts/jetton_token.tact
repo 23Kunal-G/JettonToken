@@ -26,15 +26,16 @@ contract JettonToken with Jetton  {
         self.mint(msg.receiver, msg.amount, self.owner); // (to, amount, responseDestination)
     }
 
-    // receive("Mint: 100") { // Public Minting
-    //     let ctx: Context = context();
-    //     require(self.mintable, "Can't Mint Anymore");
-    //     self.mint(ctx.sender, 100, self.owner);
-    // }
-
     receive(msg: MintClose) {
         let ctx: Context = context();
         require(ctx.sender == self.owner, "Not Owner");
         self.mintable = false;
+    }
+
+    receive(msg: IncreaseMaxSupply) {
+        let ctx: Context = context();
+        require(ctx.sender == self.owner, "Not Owner");
+        require(msg.newMaxSupply > self.maxSupply, "New max supply must be greater than current max supply");
+        self.maxSupply = msg.newMaxSupply;
     }
 }

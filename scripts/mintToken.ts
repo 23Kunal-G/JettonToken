@@ -1,16 +1,17 @@
 import { NetworkProvider } from "@ton/blueprint";
 import { Address, beginCell, internal, SendMode, toNano } from "@ton/core";
 import { walletConfig } from "../wallet/walletConfig";
+import { JettonToken } from "../build/JettonToken/JettonToken_JettonToken";
 
 export async function run(provider: NetworkProvider) {
     const ui = provider.ui();
-    
+
     try {
         // Get user input
         const receiver = await ui.inputAddress(`Enter the token recipient address`);
         const amountInput = await ui.input(`Enter the mint amount`);
         const amount = BigInt(amountInput);
-        
+
         // Validate amount
         if (amount <= 0n) {
             throw new Error("Mint amount must be positive");
@@ -21,6 +22,8 @@ export async function run(provider: NetworkProvider) {
         if (!tokenAddr) {
             throw new Error("JETTON_TOKEN_MASTER_ADDRESS not set in environment");
         }
+
+        const jettonToken = provider.open(await JettonToken.fromAddress(tokenAddr));
 
         const ownerWallet = await walletConfig();
 
@@ -34,7 +37,7 @@ export async function run(provider: NetworkProvider) {
 
         // Get current seqno
         const seqno = await ownerWallet.wallet.getSeqno();
-        
+
         ui.write(`Sending mint transaction...`);
         ui.write(`Recipient: ${receiver.toString()}`);
         ui.write(`Amount: ${amount.toString()}`);
@@ -51,8 +54,20 @@ export async function run(provider: NetworkProvider) {
                     body: msgBody
                 })
             ],
-            sendMode: SendMode.CARRY_ALL_REMAINING_BALANCE
+            sendMode: SendMode.PAY_GAS_SEPARATELY
         });
+
+        // await jettonToken.send(
+        //     provider.sender(),
+        //     {
+        //         value: toNano('0.05'),
+        //     },
+        //     {
+        //         $$type: 'Mint',
+        //         amount: (amount * 1_000_000_000n) , // 100 tokens with 9 decimals
+        //         receiver: receiver,
+        //     },
+        // )
 
         // Wait for transaction confirmation
         ui.write(`Waiting for transaction confirmation...`);
@@ -61,10 +76,10 @@ export async function run(provider: NetworkProvider) {
             await sleep(1500);
             currentSeqno = await ownerWallet.wallet.getSeqno();
         }
-        
+
         ui.write(`Mint transaction confirmed!`);
         ui.write(`New seqno: ${currentSeqno}`);
-        
+
     } catch (error) {
         ui.write(`Error: ${error instanceof Error ? error.message : String(error)}`);
         throw error;

@@ -1,14 +1,14 @@
-import { TonClient, WalletContractV5R1 } from "@ton/ton";
+import { Address, TonClient, WalletContractV4, WalletContractV5R1 } from "@ton/ton";
 import { mnemonicToWalletKey } from "@ton/crypto"
 // import { getHttpEndpoint } from "@orbs-network/ton-access";
 
 
 export async function walletConfig() {
-    const mnemonic  = process.env.OWNER_NEMONIC_V5 as string;
-    const keyPair = await mnemonicToWalletKey(mnemonic.split(''));
+    const mnemonic  = process.env.OWNER_NEMONIC as string;
+    const keyPair = await mnemonicToWalletKey(mnemonic.split(' '));
 
     // Create the wallet contract instance
-    const wallet = WalletContractV5R1.create({
+    const wallet = WalletContractV4.create({
         publicKey : keyPair.publicKey,
         workchain: 0
     });
@@ -19,9 +19,10 @@ export async function walletConfig() {
     */
 
     // const endPoint = await getHttpEndpoint();
-    const endpoint = "https://testnet.toncenter.com/api/v2/openapi.json";
+    const endpoint = "https://testnet.toncenter.com/api/v2/jsonRPC";
     const client = new TonClient({ endpoint });
     const walletContract = client.open(wallet);
+    console.log(`Wallet address: ${ walletContract.address.toString()}`);
     return {
         wallet: walletContract,
         keyPair: keyPair

@@ -11,8 +11,8 @@ export async function run(provider: NetworkProvider) {
         image: "https://azure-elegant-gibbon-704.mypinata.cloud/ipfs/bafybeibcyncpqdatxt2nh6bmkjkuqzclqotshfliggvvk6levro66y32du",
     };
 
-    const totalSupply = 1000_000_000_000n;
-    const owner = Address.parse(process.env.JETTON_TOKEN_OWNER_ADDRESS_V5 as string);
+    const totalSupply = 1000_000_000_000_000_000n;
+    const owner = Address.parse(process.env.JETTON_TOKEN_OWNER_ADDRESS_V4 as string);
     
 
     // Create content Cell
@@ -22,7 +22,7 @@ export async function run(provider: NetworkProvider) {
     await jettonToken.send(
         provider.sender(),
         {
-            value: toNano('0.05'),
+            value: toNano('0.2'),
         },
         {
             $$type: 'Mint',

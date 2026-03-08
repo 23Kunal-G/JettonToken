@@ -44,15 +44,15 @@ trait Jetton with Ownable {
         let winit: StateInit = self.getJettonWalletInit(to); // Create message
         send(SendParameters{
             to: contractAddress(winit), 
-            value: 0, 
+            value: ton("0.05"), 
             bounce: false,
-            mode: SendRemainingValue,
+            mode: SendIgnoreErrors,
             body: TokenTransferInternal{ 
                 queryId: 0,
                 amount: amount,
                 from: myAddress(),
                 responseDestination: responseDestination,
-                forwardTonAmount: 0,
+                forwardTonAmount: ton("0.01"),
                 forwardPayload: emptySlice()
             }.toCell(),
             code: winit.code,
